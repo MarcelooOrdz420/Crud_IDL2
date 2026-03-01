@@ -1,0 +1,136 @@
+<div class="card border-0">
+  <div class="card-header bg-white">
+    <h3 class="h5 mb-0">{{ modo() === 'editar' ? 'Editar vehiculo' : 'Agregar persona, casa y vehiculo' }}</h3>
+  </div>
+
+  <div class="card-body">
+    <form [formGroup]="form" class="row g-3" (ngSubmit)="onGuardar()">
+      @if (modo() === 'crear') {
+      <div class="col-12">
+        <h4 class="h6">Datos de la persona</h4>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="personaIdTipoDocumento" class="form-label">Tipo documento</label>
+        <select id="personaIdTipoDocumento" class="form-select" formControlName="personaIdTipoDocumento">
+          @for (tipo of tiposDocumento; track tipo.id) {
+          <option [value]="tipo.id">{{ tipo.descripcion }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="personaNumeroDocumento" class="form-label">Numero documento</label>
+        <input id="personaNumeroDocumento" type="text" class="form-control" formControlName="personaNumeroDocumento" />
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="personaTelefono" class="form-label">Telefono</label>
+        <input id="personaTelefono" type="text" class="form-control" formControlName="personaTelefono" />
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="personaNombres" class="form-label">Nombres</label>
+        <input id="personaNombres" type="text" class="form-control" formControlName="personaNombres" />
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="personaApellidoPaterno" class="form-label">Apellido paterno</label>
+        <input id="personaApellidoPaterno" type="text" class="form-control" formControlName="personaApellidoPaterno" />
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="personaApellidoMaterno" class="form-label">Apellido materno</label>
+        <input id="personaApellidoMaterno" type="text" class="form-control" formControlName="personaApellidoMaterno" />
+      </div>
+
+      <div class="col-12">
+        <label for="personaDireccion" class="form-label">Direccion</label>
+        <input id="personaDireccion" type="text" class="form-control" formControlName="personaDireccion" />
+      </div>
+
+      <div class="col-12 mt-2">
+        <h4 class="h6">Datos de la casa</h4>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="casaNombre" class="form-label">Nombre de la casa</label>
+        <input id="casaNombre" type="text" class="form-control" formControlName="casaNombre" />
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="casaDireccion" class="form-label">Direccion</label>
+        <input id="casaDireccion" type="text" class="form-control" formControlName="casaDireccion" />
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="casaReferencia" class="form-label">Referencia</label>
+        <input id="casaReferencia" type="text" class="form-control" formControlName="casaReferencia" />
+      </div>
+      } @else {
+      <div class="col-12">
+        <div class="alert alert-light mb-0">
+          En edicion solo se actualizan los datos del vehiculo. La persona y la casa relacionadas se mantienen.
+        </div>
+      </div>
+      }
+
+      <div class="col-12 mt-2">
+        <h4 class="h6">Datos del vehiculo</h4>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="placa" class="form-label">Placa</label>
+        <input id="placa" type="text" class="form-control" formControlName="placa" />
+        @if (form.controls.placa.touched && form.controls.placa.invalid) {
+        <div class="invalid-feedback d-block">La placa es obligatoria.</div>
+        }
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="marca" class="form-label">Marca</label>
+        <input id="marca" type="text" class="form-control" formControlName="marca" />
+        @if (form.controls.marca.touched && form.controls.marca.invalid) {
+        <div class="invalid-feedback d-block">La marca es obligatoria.</div>
+        }
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="modelo" class="form-label">Modelo</label>
+        <input id="modelo" type="text" class="form-control" formControlName="modelo" />
+        @if (form.controls.modelo.touched && form.controls.modelo.invalid) {
+        <div class="invalid-feedback d-block">El modelo es obligatorio.</div>
+        }
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="anio" class="form-label">Anio</label>
+        <input id="anio" type="number" class="form-control" formControlName="anio" />
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="color" class="form-label">Color</label>
+        <input id="color" type="text" class="form-control" formControlName="color" />
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="estado" class="form-label">Estado</label>
+        <div class="form-check mt-2">
+          <input id="estado" type="checkbox" class="form-check-input" formControlName="estado" />
+          <label class="form-check-label" for="estado">Vehiculo activo</label>
+        </div>
+      </div>
+
+      @if (errorMensaje) {
+      <div class="col-12">
+        <div class="alert alert-danger mb-0">{{ errorMensaje }}</div>
+      </div>
+      }
+
+      <div class="col-12 d-flex justify-content-end gap-2 mt-2">
+        <button type="button" class="btn btn-outline-secondary" (click)="onCancelar()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="cargando">{{ cargando ? 'Guardando...' : 'Guardar' }}</button>
+      </div>
+    </form>
+  </div>
+</div>

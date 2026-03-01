@@ -1,0 +1,89 @@
+<div class="container py-3">
+  <div class="card mb-3">
+    <div class="card-body">
+      <h2 class="h5 mb-3">Filtros de búsqueda</h2>
+
+      <form class="row g-3" aria-label="Filtros de búsqueda de personas">
+        <div class="col-12 col-md-6">
+          <label for="filtroNombre" class="form-label">Nombre</label>
+          <input id="filtroNombre" type="text" class="form-control" placeholder="Ingrese nombre" [(ngModel)]="filtroNombre" name="filtroNombre" />
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="filtroApellidoPaterno" class="form-label">Apellido paterno</label>
+          <input id="filtroApellidoPaterno" type="text" class="form-control" placeholder="Ingrese apellido paterno" [(ngModel)]="filtroApellidoPaterno" name="filtroApellidoPaterno" />
+        </div>
+
+        <div class="col-12 d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-primary" (click)="buscarPersonas()">Buscar</button>
+          <a class="btn btn-outline-primary" routerLink="/casa">Casas</a>
+          <a class="btn btn-outline-primary" routerLink="/vehiculo">Vehiculos</a>
+          <button type="button" class="btn btn-outline-secondary" (click)="limpiarBusqueda()">Limpiar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body table-wrapper">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nombres</th>
+              <th scope="col">Apellido paterno</th>
+              <th scope="col">Apellido materno</th>
+              <th scope="col">Dirección</th>
+              <th scope="col">Teléfono</th>
+              <th scope="col">
+                <button type="button" class="btn btn-primary" (click)="abrirAgregar()">Agregar</button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (persona of personas(); track persona.id) {
+            <tr>
+              <td>{{ persona.id }}</td>
+              <td>{{ persona.nombres }}</td>
+              <td>{{ persona.apellidoPaterno }}</td>
+              <td>{{ persona.apellidoMaterno }}</td>
+              <td>{{ persona.direccion }}</td>
+              <td>{{ persona.telefono }}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-warning me-2" (click)="abrirEditar(persona)">
+                  Editar
+                </button>
+                <button type="button" class="btn btn-sm btn-danger" (click)="eliminarPersona(persona)">
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="7" class="text-center">{{ busquedaRealizada ? 'No hay registros para mostrar.' : 'Realiza una busqueda para ver resultados.' }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- EN EL CASO DE QUE LA VARIABLE mostrarModal ES IGUAL A TRUE ==> entonces va a construir el modal -->
+  @if (mostrarModal) {
+  <div class="modal-backdrop-custom" (click)="cerrarModal()"></div>
+  <div class="modal-custom" role="dialog" aria-modal="true" aria-label="Ventana de edición de persona">
+
+
+
+    <app-mantenimiento-persona-editar [persona]="personaSeleccionada" [tiposDocumentos]="tiposDocumentos"
+      [modo]="modoEdicion" (cancelado)="cerrarModal()" (guardado)="onGuardado()" />
+
+
+
+
+  </div>
+  }
+</div>

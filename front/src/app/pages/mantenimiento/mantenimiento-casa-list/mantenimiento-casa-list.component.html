@@ -1,0 +1,78 @@
+<div class="container py-3">
+  <div class="card mb-3">
+    <div class="card-body">
+      <h2 class="h5 mb-3">Filtros de búsqueda</h2>
+
+      <form class="row g-3" aria-label="Filtros de búsqueda de casas">
+        <div class="col-12 col-md-6">
+          <label for="filtroNombreCasa" class="form-label">Nombre</label>
+          <input id="filtroNombreCasa" type="text" class="form-control" placeholder="Ingrese nombre" [(ngModel)]="filtroNombre" name="filtroNombreCasa" />
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="filtroPropietario" class="form-label">Id Propietario</label>
+          <input id="filtroPropietario" type="number" class="form-control" placeholder="Ingrese id propietario" [(ngModel)]="filtroPropietario" name="filtroPropietario" />
+        </div>
+
+        <div class="col-12 d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-primary" (click)="buscarCasas()">Buscar</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="limpiarBusqueda()">Limpiar</button>
+          <a class="btn btn-outline-primary" routerLink="/persona">Personas</a>
+          <a class="btn btn-outline-primary" routerLink="/vehiculo">Vehiculos</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body table-wrapper">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Dirección</th>
+              <th scope="col">Referencia</th>
+              <th scope="col">Propietario</th>
+              <th scope="col">
+                <button type="button" class="btn btn-primary" (click)="abrirAgregar()">Agregar</button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (casa of casas(); track casa.id) {
+            <tr>
+              <td>{{ casa.id }}</td>
+              <td>{{ casa.nombre }}</td>
+              <td>{{ casa.direccion }}</td>
+              <td>{{ casa.referencia }}</td>
+              <td>{{ casa.idPropietarioPersona }}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-warning me-2" (click)="abrirEditar(casa)">Editar</button>
+                <button type="button" class="btn btn-sm btn-danger" (click)="eliminarCasa(casa)">Eliminar</button>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="6" class="text-center">{{ busquedaRealizada ? 'No hay registros para mostrar.' : 'Realiza una busqueda para ver resultados.' }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  @if (mostrarModal) {
+  <div class="modal-backdrop-custom" (click)="cerrarModal()"></div>
+  <div class="modal-custom" role="dialog" aria-modal="true" aria-label="Ventana de edición de casa">
+    <app-mantenimiento-casa-editar
+      [casa]="casaSeleccionada"
+      [modo]="modoEdicion"
+      (cancelado)="cerrarModal()"
+      (guardado)="onGuardado()"
+    />
+  </div>
+  }
+</div>

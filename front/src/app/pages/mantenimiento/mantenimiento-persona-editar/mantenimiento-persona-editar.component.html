@@ -1,0 +1,77 @@
+<div class="card border-0">
+  <div class="card-header bg-white">
+    <h3 class="h5 mb-0">{{ modo() === 'editar' ? 'Editar persona' : 'Agregar persona' }}</h3>
+  </div>
+
+  <div class="card-body">
+
+    <form [formGroup]="form" class="row g-3" (ngSubmit)="onGuardar()">
+
+
+
+      <div class="col-12 col-md-6">
+        <label for="idTipoDocumento" class="form-label">idTipoDocumento</label>
+
+        <select id="idTipoDocumento" class="form-select" formControlName="idTipoDocumento">
+
+           @for (tipo of tiposDocumentos(); track tipo.id) {
+            <option value="{{tipo.id}}">{{tipo.descripcion}}</option>
+           }
+
+          
+        </select>
+
+        @if (form.controls.idTipoDocumento.touched && form.controls.idTipoDocumento.invalid) {
+        <div class="invalid-feedback d-block">El idTipoDocumento es obligatorio.</div>
+        }
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label for="numeroDocumento" class="form-label">N° Documento</label>
+        <input id="numeroDocumento" type="text" class="form-control" formControlName="numeroDocumento" />
+        @if (form.controls.numeroDocumento.touched && form.controls.numeroDocumento.invalid) {
+        <div class="invalid-feedback d-block">El documento es obligatorio y solo debe contener números.</div>
+        }
+      </div>
+
+
+      <div class="col-12 col-md-6">
+        <label for="nombres" class="form-label">Nombres</label>
+        <input id="nombres" type="text" class="form-control" formControlName="nombres" />
+        @if (form.controls.nombres.touched && form.controls.nombres.invalid) {
+        <div class="invalid-feedback d-block">El nombre es obligatorio.</div>
+        }
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label for="apellidoPaterno" class="form-label">Apellido paterno</label>
+        <input id="apellidoPaterno" type="text" class="form-control" formControlName="apellidoPaterno" />
+        @if (form.controls.apellidoPaterno.touched && form.controls.apellidoPaterno.invalid) {
+        <div class="invalid-feedback d-block">El apellido paterno es obligatorio.</div>
+        }
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label for="apellidoMaterno" class="form-label">Apellido materno</label>
+        <input id="apellidoMaterno" type="text" class="form-control" formControlName="apellidoMaterno" />
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label for="telefono" class="form-label">Teléfono</label>
+        <input id="telefono" type="text" class="form-control" formControlName="telefono" />
+      </div>
+
+      <div class="col-12">
+        <label for="direccion" class="form-label">Dirección</label>
+        <input id="direccion" type="text" class="form-control" formControlName="direccion" />
+      </div>
+
+      <div class="col-12 d-flex justify-content-end gap-2 mt-2">
+        <button type="button" class="btn btn-outline-secondary" (click)="onCancelar()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="cargando">
+          {{ cargando ? 'Guardando...' : 'Guardar' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

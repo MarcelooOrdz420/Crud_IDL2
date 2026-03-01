@@ -1,0 +1,9 @@
+{
+  "name": "crud-root",
+  "private": true,
+  "scripts": {
+    "start": "npm --prefix front run start",
+    "install:front": "npm --prefix front install",
+    "build:front": "npm --prefix front run build"
+  }
+}

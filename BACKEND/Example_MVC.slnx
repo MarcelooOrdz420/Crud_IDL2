@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/01 API/">
+    <Project Path="Mvc.Api/Mvc.Api.csproj" />
+  </Folder>
+  <Folder Name="/02 Bussnies/">
+    <Project Path="Mvc.Bussnies/Mvc.Bussnies.csproj" />
+    <Project Path="Mvc.IBussnies/Mvc.IBussnies.csproj" />
+  </Folder>
+  <Folder Name="/03 Repositorory/">
+    <Project Path="Mvc.Repository/Mvc.Repository.csproj" />
+  </Folder>
+  <Folder Name="/04 Model/">
+    <Project Path="DbModel/DbModel.csproj" />
+    <Project Path="DtoModel/DtoModel.csproj" />
+  </Folder>
+</Solution>

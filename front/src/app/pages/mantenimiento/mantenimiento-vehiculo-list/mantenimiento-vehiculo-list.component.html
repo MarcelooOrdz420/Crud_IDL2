@@ -1,0 +1,91 @@
+<div class="container py-3">
+  <div class="card mb-3">
+    <div class="card-body">
+      <h2 class="h5 mb-3">Busqueda de vehiculos</h2>
+
+      <form class="row g-3" aria-label="Busqueda de vehiculos">
+        <div class="col-12 col-md-4">
+          <label for="filtroPlaca" class="form-label">Placa</label>
+          <input id="filtroPlaca" type="text" class="form-control" placeholder="Ingrese placa" [(ngModel)]="filtroPlaca" name="filtroPlaca" />
+        </div>
+
+        <div class="col-12 col-md-4">
+          <label for="filtroMarca" class="form-label">Marca</label>
+          <input id="filtroMarca" type="text" class="form-control" placeholder="Ingrese marca" [(ngModel)]="filtroMarca" name="filtroMarca" />
+        </div>
+
+        <div class="col-12 col-md-4">
+          <label for="filtroPropietarioVehiculo" class="form-label">Id Propietario</label>
+          <input id="filtroPropietarioVehiculo" type="number" class="form-control" placeholder="Ingrese id propietario" [(ngModel)]="filtroPropietario" name="filtroPropietarioVehiculo" />
+        </div>
+
+        <div class="col-12 d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-primary" (click)="buscarVehiculos()">Buscar</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="limpiarBusqueda()">Limpiar</button>
+          <a class="btn btn-outline-primary" routerLink="/persona">Personas</a>
+          <a class="btn btn-outline-primary" routerLink="/casa">Casas</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body table-wrapper">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Placa</th>
+              <th scope="col">Marca</th>
+              <th scope="col">Modelo</th>
+              <th scope="col">Anio</th>
+              <th scope="col">Color</th>
+              <th scope="col">Propietario</th>
+              <th scope="col">Casa</th>
+              <th scope="col">Estado</th>
+              <th scope="col">
+                <button type="button" class="btn btn-primary" (click)="abrirAgregar()">Agregar</button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (vehiculo of vehiculos(); track vehiculo.id) {
+            <tr>
+              <td>{{ vehiculo.id }}</td>
+              <td>{{ vehiculo.placa }}</td>
+              <td>{{ vehiculo.marca }}</td>
+              <td>{{ vehiculo.modelo }}</td>
+              <td>{{ vehiculo.anio }}</td>
+              <td>{{ vehiculo.color }}</td>
+              <td>{{ vehiculo.idPropietarioPersona }}</td>
+              <td>{{ vehiculo.idCasa }}</td>
+              <td>{{ vehiculo.estado ? 'Activo' : 'Inactivo' }}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-warning me-2" (click)="abrirEditar(vehiculo)">Editar</button>
+                <button type="button" class="btn btn-sm btn-danger" (click)="eliminarVehiculo(vehiculo)">Eliminar</button>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="10" class="text-center">{{ busquedaRealizada ? 'No hay registros para mostrar.' : 'Realiza una busqueda para ver resultados.' }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  @if (mostrarModal) {
+  <div class="modal-backdrop-custom" (click)="cerrarModal()"></div>
+  <div class="modal-custom" role="dialog" aria-modal="true" aria-label="Ventana de edicion de vehiculo">
+    <app-mantenimiento-vehiculo-editar
+      [vehiculo]="vehiculoSeleccionado"
+      [modo]="modoEdicion"
+      (cancelado)="cerrarModal()"
+      (guardado)="onGuardado()"
+    />
+  </div>
+  }
+</div>
